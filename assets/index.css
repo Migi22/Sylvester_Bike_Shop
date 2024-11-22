@@ -57,3 +57,22 @@ h2 {
 p {
   font-size: 16px;
 }
+
+/* Simple Button Styling */
+.btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}

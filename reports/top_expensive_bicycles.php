@@ -25,8 +25,7 @@ $stmt = $pdo->query($sql);
     <nav>
         <ul>
             <li><a href="/Sylvester_Bike_Shop">Back to Menu</a></li>
-            <li><a href="/Sylvester_Bike_Shop/product">Product List</a></li>
-            <li><a href="../reports/top_expensive_bicycles.php">Top 5 Expensive Bicycles</a></li>
+            <li><a href="/Sylvester_Bike_Shop/product">Back to Product List</a></li>
         </ul>
     </nav>
 

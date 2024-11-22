@@ -2,26 +2,19 @@
 // Include database connection
 include('../config/db_connection.php');
 
-// Fetch product ID to delete
+// Get the product ID from the URL
 $product_id = $_GET['id'];
 
-// Delete product
-if ($product_id) {
-    try {
-        // Delete query
-        $sql = "DELETE FROM product WHERE product_id = :product_id";
-        
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':product_id', $product_id);
-        $stmt->execute();
+// Prepare and execute the delete query
+$sql = "DELETE FROM product WHERE product_id = :product_id";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':product_id', $product_id);
 
-        echo "<p>Product deleted successfully!</p>";
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
+if ($stmt->execute()) {
+    session_start();
+    $_SESSION['message'] = 'Product deleted successfully!';
+    header('Location: index.php');
 } else {
-    echo "<p>No product ID provided.</p>";
+    echo "Error: Could not delete product.";
 }
-
-echo "<p><a href='index.php'>Back to Product List</a></p>";
 ?>

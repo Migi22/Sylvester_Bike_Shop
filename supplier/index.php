@@ -2,6 +2,9 @@
 // Include database connection
 include('../config/db_connection.php');
 
+// Start the session to retrieve the message
+session_start();
+
 // Fetch all suppliers from the database
 $sql = "SELECT * FROM supplier";
 $stmt = $pdo->query($sql);
@@ -25,6 +28,12 @@ $stmt = $pdo->query($sql);
     </nav>
 
     <h2>All Suppliers</h2>
+
+    <!-- Display success message if available -->
+    <?php if (isset($_SESSION['message'])): ?>
+        <p style="color: green;"><?php echo $_SESSION['message']; ?></p>
+        <?php unset($_SESSION['message']); ?> <!-- Clear the message after displaying -->
+    <?php endif; ?>
 
     <?php
     if ($stmt->rowCount() > 0) {

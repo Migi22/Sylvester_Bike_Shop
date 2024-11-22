@@ -5,10 +5,10 @@ session_start();
 // Include database connection
 include('../config/db_connection.php');
 
-// Fetch all products with the supplier name using JOIN
-$sql = "SELECT p.product_id, p.product_name, p.product_category, p.supplier_id, p.stock_quantity, p.reorder_level, p.price, s.supplier_name
+// Fetch all products with the supplier name using LEFT JOIN
+$sql = "SELECT p.product_id, p.product_name, p.product_type, p.supplier_id, p.cost_price, p.selling_price, p.quantity_on_hand, p.reorder_level, s.supplier_name
         FROM product p
-        LEFT JOIN supplier s ON p.supplier_id = s.supplier_id";  // Use LEFT JOIN to allow NULL supplier_id
+        LEFT JOIN supplier s ON p.supplier_id = s.supplier_id"; // Use LEFT JOIN to allow NULL supplier_id
 $stmt = $pdo->query($sql);
 ?>
 
@@ -46,11 +46,12 @@ $stmt = $pdo->query($sql);
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Category</th>
+                    <th>Type</th>
                     <th>Supplier</th>
-                    <th>Stock Quantity</th>
+                    <th>Cost Price</th>
+                    <th>Selling Price</th>
+                    <th>Quantity On Hand</th>
                     <th>Reorder Level</th>
-                    <th>Price</th>
                     <th>Actions</th>
                 </tr>";
 
@@ -61,11 +62,12 @@ $stmt = $pdo->query($sql);
             echo "<tr>
                     <td>" . $row['product_id'] . "</td>
                     <td>" . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . "</td>
-                    <td>" . htmlspecialchars($row['product_category'], ENT_QUOTES, 'UTF-8') . "</td>
+                    <td>" . htmlspecialchars($row['product_type'], ENT_QUOTES, 'UTF-8') . "</td>
                     <td>" . $supplier_name . "</td>
-                    <td>" . htmlspecialchars($row['stock_quantity'], ENT_QUOTES, 'UTF-8') . "</td>
+                    <td>" . htmlspecialchars($row['cost_price'], ENT_QUOTES, 'UTF-8') . "</td>
+                    <td>" . htmlspecialchars($row['selling_price'], ENT_QUOTES, 'UTF-8') . "</td>
+                    <td>" . htmlspecialchars($row['quantity_on_hand'], ENT_QUOTES, 'UTF-8') . "</td>
                     <td>" . htmlspecialchars($row['reorder_level'], ENT_QUOTES, 'UTF-8') . "</td>
-                    <td>" . htmlspecialchars($row['price'], ENT_QUOTES, 'UTF-8') . "</td>
                     <td>
                         <a href='edit.php?id=" . $row['product_id'] . "'>Edit</a> |
                         <a href='delete.php?id=" . $row['product_id'] . "' onclick=\"return confirm('Are you sure you want to delete this product?')\">Delete</a>

@@ -2,6 +2,9 @@
 // Include database connection
 include('../config/db_connection.php');
 
+// Start the session to store messages
+session_start();
+
 // Define variables for the form
 $supplier_name = $supplier_contact_info = "";
 $error_message = "";
@@ -22,9 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $stmt->execute();
         
-        // Redirect or success message
-        echo "<p>Supplier added successfully!</p>";
-        echo "<a href='index.php'>Back to Supplier List</a>";  // Back link
+        // Set success message in session
+        $_SESSION['message'] = 'Supplier added successfully!';
+
+        // Redirect to the supplier list (index.php)
+        header('Location: index.php');
+        exit();
     } catch (PDOException $e) {
         $error_message = "Error: " . $e->getMessage();
     }
@@ -36,9 +42,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Add Supplier</title>
+    <link rel="stylesheet" href="../assets/index.css">
 </head>
 <body>
-    <h2>Add New Supplier</h2>
+    <nav>
+        <ul>
+            <li><a href="/Sylvester_Bike_Shop">Back to Menu</a></li>
+            <li><a href="index.php">Back to Supplier List</a></li>
+        </ul>
+    </nav>
+
+    <h2> Add Supplier</h2>
 
     <?php if ($error_message): ?>
         <p style="color:red;"><?php echo $error_message; ?></p>
@@ -48,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="supplier_name">Supplier Name:</label><br>
         <input type="text" id="supplier_name" name="supplier_name" required><br><br>
 
-        <label for="supplier_contact_info">Phone:</label><br>
+        <label for="supplier_contact_info">Contact Information:</label><br>
         <input type="text" id="supplier_contact_info" name="supplier_contact_info" required><br><br>
 
         <button type="submit">Add Supplier</button>

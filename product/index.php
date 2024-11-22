@@ -28,6 +28,7 @@ $stmt = $pdo->query($sql);
             <li><a href="add.php">Add Product</a></li>
             <li><a href="../reports/top_expensive_bicycles.php">Top 5 Expensive Bicycles</a></li>
             <li><a href="../reports/supplier_product_report.php">Supplier Product Report</a></li>
+            <li><a href="../reports/low_stock_report.php">Low Stock Report</a></li>
         </ul>
     </nav>
 

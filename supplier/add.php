@@ -3,26 +3,22 @@
 include('../config/db_connection.php');
 
 // Define variables for the form
-$supplier_name = $supplier_email = $supplier_phone = $supplier_address = "";
+$supplier_name = $supplier_contact_info = "";
 $error_message = "";
 
 // Form submission logic
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $supplier_name = $_POST['supplier_name'];
-    $supplier_email = $_POST['supplier_email'];
-    $supplier_phone = $_POST['supplier_phone'];
-    $supplier_address = $_POST['supplier_address'];
+    $supplier_contact_info = $_POST['supplier_contact_info'];
 
     try {
         // Prepare and execute the insert query
-        $sql = "INSERT INTO supplier (supplier_name, supplier_email, supplier_phone, supplier_address)
-                VALUES (:supplier_name, :supplier_email, :supplier_phone, :supplier_address)";
+        $sql = "INSERT INTO supplier (supplier_name, supplier_contact_info)
+                VALUES (:supplier_name, :supplier_contact_info)";
         
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':supplier_name', $supplier_name);
-        $stmt->bindParam(':supplier_email', $supplier_email);
-        $stmt->bindParam(':supplier_phone', $supplier_phone);
-        $stmt->bindParam(':supplier_address', $supplier_address);
+        $stmt->bindParam(':supplier_contact_info', $supplier_contact_info);
         
         $stmt->execute();
         
@@ -51,14 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="supplier_name">Supplier Name:</label><br>
         <input type="text" id="supplier_name" name="supplier_name" required><br><br>
 
-        <label for="supplier_email">Email:</label><br>
-        <input type="email" id="supplier_email" name="supplier_email" required><br><br>
-
-        <label for="supplier_phone">Phone:</label><br>
-        <input type="text" id="supplier_phone" name="supplier_phone" required><br><br>
-
-        <label for="supplier_address">Address:</label><br>
-        <textarea id="supplier_address" name="supplier_address" required></textarea><br><br>
+        <label for="supplier_contact_info">Phone:</label><br>
+        <input type="text" id="supplier_contact_info" name="supplier_contact_info" required><br><br>
 
         <button type="submit">Add Supplier</button>
     </form>

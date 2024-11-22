@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Redirect or success message
         echo "<p>Supplier added successfully!</p>";
+        echo "<a href='index.php'>Back to Supplier List</a>";  // Back link
     } catch (PDOException $e) {
         $error_message = "Error: " . $e->getMessage();
     }
@@ -51,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" id="supplier_contact_info" name="supplier_contact_info" required><br><br>
 
         <button type="submit">Add Supplier</button>
+        <a href="index.php"><button type="button">Cancel</button></a> <!-- Cancel button -->
     </form>
 </body>
 </html>

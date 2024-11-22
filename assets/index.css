@@ -60,7 +60,7 @@ p {
 
 /* Simple Button Styling */
 .btn {
-  background-color: #4caf50;
+  background-color: #8f0e89;
   color: white;
   padding: 12px 20px;
   text-align: center;
@@ -74,5 +74,5 @@ p {
 }
 
 .btn:hover {
-  background-color: #45a049;
+  background-color: #c211b9;
 }

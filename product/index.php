@@ -5,11 +5,11 @@ session_start();
 // Include database connection
 include('../config/db_connection.php');
 
-// Fetch all products from the database
-$sql = "SELECT * FROM product";
+// Fetch all products with the supplier name using JOIN
+$sql = "SELECT p.product_id, p.product_name, p.product_category, p.supplier_id, p.stock_quantity, p.reorder_level, p.price, s.supplier_name
+        FROM product p
+        LEFT JOIN supplier s ON p.supplier_id = s.supplier_id";  // Use LEFT JOIN to allow NULL supplier_id
 $stmt = $pdo->query($sql);
-
-// Check if there are any products
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +42,7 @@ $stmt = $pdo->query($sql);
 
     <?php
     if ($stmt->rowCount() > 0) {
-        echo "<table border='1'>
+        echo "<table>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
@@ -55,25 +55,20 @@ $stmt = $pdo->query($sql);
                 </tr>";
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // Fetch the supplier name for each product
-            $supplier_sql = "SELECT supplier_name FROM supplier WHERE supplier_id = :supplier_id";
-            $supplier_stmt = $pdo->prepare($supplier_sql);
-            $supplier_stmt->bindParam(':supplier_id', $row['supplier_id']);
-            $supplier_stmt->execute();
-            $supplier_row = $supplier_stmt->fetch(PDO::FETCH_ASSOC);
-            $supplier_name = $supplier_row['supplier_name'];
+            // Check if the supplier name is available (if the supplier_id is NULL)
+            $supplier_name = $row['supplier_name'] ? htmlspecialchars($row['supplier_name'], ENT_QUOTES, 'UTF-8') : 'No Supplier';
 
             echo "<tr>
                     <td>" . $row['product_id'] . "</td>
-                    <td>" . $row['product_name'] . "</td>
-                    <td>" . $row['product_category'] . "</td>
+                    <td>" . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . "</td>
+                    <td>" . htmlspecialchars($row['product_category'], ENT_QUOTES, 'UTF-8') . "</td>
                     <td>" . $supplier_name . "</td>
-                    <td>" . $row['stock_quantity'] . "</td>
-                    <td>" . $row['reorder_level'] . "</td>
-                    <td>" . $row['price'] . "</td>
+                    <td>" . htmlspecialchars($row['stock_quantity'], ENT_QUOTES, 'UTF-8') . "</td>
+                    <td>" . htmlspecialchars($row['reorder_level'], ENT_QUOTES, 'UTF-8') . "</td>
+                    <td>" . htmlspecialchars($row['price'], ENT_QUOTES, 'UTF-8') . "</td>
                     <td>
                         <a href='edit.php?id=" . $row['product_id'] . "'>Edit</a> |
-                        <a href='delete.php?id=" . $row['product_id'] . "'>Delete</a>
+                        <a href='delete.php?id=" . $row['product_id'] . "' onclick=\"return confirm('Are you sure you want to delete this product?')\">Delete</a>
                     </td>
                   </tr>";
         }
